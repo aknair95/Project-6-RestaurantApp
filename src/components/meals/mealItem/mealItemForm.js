@@ -9,7 +9,7 @@ const MealItemForm=() =>{
         <form className={classes.form}>
              <div>
                 <Input label="QTY." input={{
-                    id: "qty",
+                    id: "qty"+ Math.random(),
                     type: "number",
                     min: '1',
                     max: '5',
