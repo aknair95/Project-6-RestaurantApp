@@ -3,7 +3,7 @@ import classes from "./mealItemForm.module.css";
 
 const MealItemForm=() =>{
     const onClickBtnHandler=(e) =>{
-
+        console.log("Added");
     }
     return(
         <form className={classes.form}>
