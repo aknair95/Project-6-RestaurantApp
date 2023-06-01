@@ -3,7 +3,7 @@ import CartContext from "./cartContext";
 
 const CartProvider=(props) =>{
 
-    const [items,setItems]=useState(props.mealsAvailable);
+    const [items,setItems]=useState(props.mealsAvailable);      //initializing state variable to available meals with qty=0
    
     const addItemToCartHandler=(item,qty) =>{
         const updatedItems=items.map((element) =>{
