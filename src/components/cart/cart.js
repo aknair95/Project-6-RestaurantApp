@@ -6,11 +6,28 @@ import classes1 from "./CartItem.module.css";
 
 const Cart=(props) =>{
     const cartItemsCtx=useContext(CartContext); 
-    const cartItemsStatus=cartItemsCtx.items.length>0;
+
+    const cartItemsStatus=cartItemsCtx.items.reduce((qtyCount,element) =>{      // cart item status checking for conditional rendering
+        return qtyCount+element.qty;
+    },0) >0;
+
+    const filteredItems=cartItemsCtx.items.filter((item) =>{                //filtering array for items quantity>0
+        return Number(item.qty)>0; 
+    });
+
+    const onClickRemoveHandler=(e) =>{
+       const id=e.target.value;                            
+       cartItemsCtx.removeItem(id,1);
+    }
+
+    const onClickAddHandler=(e) =>{
+        const item={id: e.target.value};
+        cartItemsCtx.addItem(item,1);
+    }
                          
     const cartItems=(
-        <ol>
-            {cartItemsCtx.items.map((item) =>{
+        <ul>
+            {filteredItems.map((item) =>{
                 return(
                     <li key={Math.random()} className={classes1.cartItem}>
                             <div>
@@ -21,22 +38,22 @@ const Cart=(props) =>{
                                 </div>
                             </div>
                             <div className={classes1.actions}>
-                                <button onClick={cartItemsCtx.removeItem}>-</button>
-                                <button onClick={cartItemsCtx.addItem}>+</button>
+                                <button value={item.id} onClick={onClickRemoveHandler}>-</button>
+                                <button value={item.id} onClick={onClickAddHandler}>+</button>
                             </div>  
                     </li>   
                 )
             })}
-        </ol>
+        </ul>
     )
     const cartPrice=cartItemsCtx.items.reduce((totalPrice,item) =>{             // reduce function to get total price from cart items
-        return totalPrice+(Number((item.qty))*Number((item.price)))
+        return totalPrice+(item.qty*item.price);
     },0);
 
     return(
         <Modal onClose={props.onClose}>
             <div className={classes.cartItems}>
-                {cartItems}
+                {cartItemsStatus && cartItems}              
                 <div className={classes.total}>
                     <span>Total Price</span>
                     <span>{`Rs ${cartPrice}`}</span>

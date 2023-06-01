@@ -5,11 +5,12 @@ import { useContext } from "react";
 
 const MealItemForm=(props) =>{
     const cartItemCtx=useContext(CartContext);
+
     const onClickAddBtnHandler=(e) =>{
         e.preventDefault();
         const quantity=document.getElementById("qty"+props.id).value;       // to get value of quantity by DOM id.
-        cartItemCtx.addItem({...props.item,qty: quantity});                 //adding quantity to items data
-
+        //cartItemCtx.addItem({...props.item,qty: quantity});                 //adding quantity to items data
+        cartItemCtx.addItem(props.item,quantity); 
     }
     return(
         <form className={classes.form}>
